@@ -3,13 +3,21 @@ package services
 import (
 	"accountantapp/go-service/internal/database"
 	"accountantapp/go-service/internal/models"
+	"fmt"
 )
 
-func CreateUserService(user *models.User) (*models.User, error) {
-	if err := database.DB.Create(user).Error; err != nil {
+func CreateUserService(input *models.User) (*models.User, error) {
+	var existing models.User
+
+	if err := database.DB.Where("email = ?", input.Email).First(&existing).Error; err == nil {
+		return nil, fmt.Errorf("user with email %s already exists", input.Email)
+	}
+
+	if err := database.DB.Create(input).Error; err != nil {
 		return nil, err
 	}
-	return user, nil
+
+	return input, nil
 }
 
 func GetAllUsersService() ([]models.User, error) {

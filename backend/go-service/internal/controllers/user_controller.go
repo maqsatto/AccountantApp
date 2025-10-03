@@ -15,11 +15,19 @@ func CreateUser(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	input.Accounts = []models.Account{}
+	input.Transactions = []models.Transaction{}
+	input.Categories = []models.Category{}
+	input.Templates = []models.Template{}
+	input.Settings = []models.AppSettings{}
+
 	user, err := services.CreateUserService(&input)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create user"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
 	c.JSON(http.StatusCreated, user)
 }
 
