@@ -1,0 +1,22 @@
+# Air configuration file
+# Документация: https://github.com/cosmtrek/air
+
+# Команда для сборки и запуска
+[build]
+  cmd = "cmd/main.go"       # Точка входа
+  bin = "tmp/app.exe"       # Временный бинарник
+  full_bin = true
+  include_ext = ["go","tpl","tmpl","html"]  # Расширения файлов, за которыми следить
+  exclude_dir = ["tmp"]     # Исключаемые папки
+  force_color = true
+
+# Режим релоада при изменении файлов
+[log]
+  time = true
+  color = "cyan"
+
+# Пути для отслеживания
+[watch]
+  # Следим за всеми папками с внутренней логикой
+  include = ["internal", "cmd"]
+  exclude = ["tmp", "vendor"]
